@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import GlobalStyle from './Style/GlobalStyle';
+import Countries from './components/Countries';
+import Card from './components/Card';
 
-function App() {
+
+
+const App = () => {
+  const [selectedCountry, setSelectedCountry] = useState(null);
+
+  const onCountryPickHandler = (country) => {
+    setSelectedCountry(country)
+  }
+
+  const clearSelectedCountryHandler = () => {
+    setSelectedCountry(null);
+  }
+
+  const onCountryPickRandomName = (country) => {
+    selectedCountry(`/name/${country}`);
+    console.log(selectedCountry)
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <GlobalStyle />
+      {
+        selectedCountry ? <Countries
+           clearSelectedCountryHandler={ clearSelectedCountryHandler}
+           selectedCountry={selectedCountry}
+        /> : <Card onCountryPickHandler={onCountryPickHandler}
+                   onCountryPickRandomName={onCountryPickRandomName} 
+        />
+      }
     </div>
   );
 }
